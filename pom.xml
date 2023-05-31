@@ -11,6 +11,7 @@
         <module>weibo-service-web</module>
         <module>weibo-service-service</module>
         <module>weibo-service-core</module>
+        <module>weibo-service-config</module>
     </modules>
     <name>weibo-service-backend</name>
     <description>weibo-service-backend</description>

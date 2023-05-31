@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package top.deepdesigner.weibo.weiboservicebackend.demos.web;
+package top.deepdesigner.weibo.weiboservicebackend.controller;
 
 /**
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
