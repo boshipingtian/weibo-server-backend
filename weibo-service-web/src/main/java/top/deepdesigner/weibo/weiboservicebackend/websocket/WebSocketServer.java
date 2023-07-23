@@ -1,5 +1,6 @@
 package top.deepdesigner.weibo.weiboservicebackend.websocket;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
@@ -26,12 +27,12 @@ public class WebSocketServer {
     /**
      * 当前在线连接数
      */
-    private static AtomicInteger onlineCount = new AtomicInteger(0);
+    private static final AtomicInteger ONLINE_COUNT = new AtomicInteger(0);
 
     /**
      * 用来存放每个客户端对应的 WebSocketServer 对象
      */
-    private static ConcurrentHashMap<String, WebSocketServer> webSocketMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, WebSocketServer> WEB_SOCKET_MAP = new ConcurrentHashMap<>();
 
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -50,11 +51,11 @@ public class WebSocketServer {
     public void onOpen(Session session, @PathParam("userId") String userId) {
         this.session = session;
         this.userId = userId;
-        if (webSocketMap.containsKey(userId)) {
-            webSocketMap.remove(userId);
-            webSocketMap.put(userId, this);
+        if (WEB_SOCKET_MAP.containsKey(userId)) {
+            WEB_SOCKET_MAP.remove(userId);
+            WEB_SOCKET_MAP.put(userId, this);
         } else {
-            webSocketMap.put(userId, this);
+            WEB_SOCKET_MAP.put(userId, this);
             addOnlineCount();
         }
         log.info("用户连接:" + userId + ",当前在线人数为:" + getOnlineCount());
@@ -70,8 +71,8 @@ public class WebSocketServer {
      */
     @OnClose
     public void onClose() {
-        if (webSocketMap.containsKey(userId)) {
-            webSocketMap.remove(userId);
+        if (WEB_SOCKET_MAP.containsKey(userId)) {
+            WEB_SOCKET_MAP.remove(userId);
             subOnlineCount();
         }
         log.info("用户退出:" + userId + ",当前在线人数为:" + getOnlineCount());
@@ -90,8 +91,8 @@ public class WebSocketServer {
                 JSONObject jsonObject = JSON.parseObject(message);
                 jsonObject.put("fromUserId", this.userId);
                 String toUserId = jsonObject.getString("toUserId");
-                if (!StringUtils.isEmpty(toUserId) && webSocketMap.containsKey(toUserId)) {
-                    webSocketMap.get(toUserId).sendMessage(jsonObject.toJSONString());
+                if (StrUtil.isNotBlank(toUserId) && WEB_SOCKET_MAP.containsKey(toUserId)) {
+                    WEB_SOCKET_MAP.get(toUserId).sendMessage(jsonObject.toJSONString());
                 } else {
                     log.error("请求的 userId:" + toUserId + "不在该服务器上");
                 }
@@ -121,14 +122,14 @@ public class WebSocketServer {
     }
 
     public static synchronized AtomicInteger getOnlineCount() {
-        return onlineCount;
+        return ONLINE_COUNT;
     }
 
     public static synchronized void addOnlineCount() {
-        WebSocketServer.onlineCount.getAndIncrement();
+        WebSocketServer.ONLINE_COUNT.getAndIncrement();
     }
 
     public static synchronized void subOnlineCount() {
-        WebSocketServer.onlineCount.getAndDecrement();
+        WebSocketServer.ONLINE_COUNT.getAndDecrement();
     }
 }
