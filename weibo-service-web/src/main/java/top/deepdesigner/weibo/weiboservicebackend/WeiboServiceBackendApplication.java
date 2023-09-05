@@ -9,5 +9,4 @@ public class WeiboServiceBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(WeiboServiceBackendApplication.class, args);
     }
-
 }

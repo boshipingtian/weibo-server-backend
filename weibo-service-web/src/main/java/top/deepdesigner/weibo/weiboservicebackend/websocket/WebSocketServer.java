@@ -1,6 +1,6 @@
 package top.deepdesigner.weibo.weiboservicebackend.websocket;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
@@ -51,6 +51,8 @@ public class WebSocketServer {
     public void onOpen(Session session, @PathParam("userId") String userId) {
         this.session = session;
         this.userId = userId;
+        log.info("this {}", this);
+        log.info("this session, {}", session);
         if (WEB_SOCKET_MAP.containsKey(userId)) {
             WEB_SOCKET_MAP.remove(userId);
             WEB_SOCKET_MAP.put(userId, this);
@@ -91,7 +93,7 @@ public class WebSocketServer {
                 JSONObject jsonObject = JSON.parseObject(message);
                 jsonObject.put("fromUserId", this.userId);
                 String toUserId = jsonObject.getString("toUserId");
-                if (StrUtil.isNotBlank(toUserId) && WEB_SOCKET_MAP.containsKey(toUserId)) {
+                if (CharSequenceUtil.isNotBlank(toUserId) && WEB_SOCKET_MAP.containsKey(toUserId)) {
                     WEB_SOCKET_MAP.get(toUserId).sendMessage(jsonObject.toJSONString());
                 } else {
                     log.error("请求的 userId:" + toUserId + "不在该服务器上");
