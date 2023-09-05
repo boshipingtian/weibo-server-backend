@@ -4,6 +4,8 @@
 
 package top.deepdesigner.weibo.weiboservicebackend.service.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,10 +23,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName
 public class User {
-    private Long id;
-    private String userName;
-    private String password;
+
+    @TableId(type = IdType.AUTO)
+    private Integer id;
     private String name;
-    private Integer age;
-    private String email;
+    private String age;
+
+    private Integer gender;
+    private String address;
 }

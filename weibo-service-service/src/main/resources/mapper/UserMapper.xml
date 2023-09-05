@@ -7,4 +7,9 @@
 <mapper namespace="top.deepdesigner.weibo.weiboservicebackend.service.mapper.UserMapper">
 
 
+    <insert id="insertByMapper" useGeneratedKeys="true"
+        parameterType="top.deepdesigner.weibo.weiboservicebackend.service.pojo.User">
+        INSERT INTO user(name, age, gender, address)
+        VALUES (#{user.name}, #{user.age}, #{user.gender}, #{user.address});
+    </insert>
 </mapper>
