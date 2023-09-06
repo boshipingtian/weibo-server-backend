@@ -5,7 +5,6 @@
 package top.deepdesigner.weibo.weiboservicebackend.service.impl.runner;
 
 import com.alibaba.otter.canal.client.CanalConnector;
-import com.alibaba.otter.canal.client.CanalConnectors;
 import com.alibaba.otter.canal.protocol.CanalEntry.Entry;
 import com.alibaba.otter.canal.protocol.Message;
 import java.util.List;
@@ -34,10 +33,7 @@ public abstract class AbstractCanalRunner implements CanalRunner {
     @Override
     public void run() {
         // 创建链接
-        CanalConnector connector = CanalConnectors.newClusterConnector(canalAdapterConfigure.getZkServers(),
-            canalAdapterConfigure.getDestination(),
-            canalAdapterConfigure.getUsername(),
-            canalAdapterConfigure.getPassword());
+        CanalConnector connector = canalAdapterConfigure.getConnector();
         int batchSize = 1000;
         while (true) {
             try {
@@ -55,7 +51,7 @@ public abstract class AbstractCanalRunner implements CanalRunner {
                             Thread.currentThread().interrupt();
                         }
                     } else {
-                        log.info("message[batchId={},size=%{}]", batchId, size);
+                        log.info("message[batchId={},size={}]", batchId, size);
                         this.printEntry(message.getEntries());
                     }
                     connector.ack(batchId); // 提交确认

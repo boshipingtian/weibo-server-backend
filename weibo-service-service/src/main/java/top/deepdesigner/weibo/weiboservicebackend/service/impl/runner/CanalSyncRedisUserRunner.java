@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.deepdesigner.weibo.weiboservicebackend.exception.CanalParserException;
-import top.deepdesigner.weibo.weiboservicebackend.service.impl.dto.canal.DefaultCanalAdapterConfigure;
+import top.deepdesigner.weibo.weiboservicebackend.service.impl.dto.canal.SimpleCanalAdapterConfigure;
 import top.deepdesigner.weibo.weiboservicebackend.service.utils.RedisUtil;
 
 /**
@@ -32,7 +32,7 @@ import top.deepdesigner.weibo.weiboservicebackend.service.utils.RedisUtil;
 public class CanalSyncRedisUserRunner extends AbstractCanalRunner {
 
     @Autowired
-    public CanalSyncRedisUserRunner(DefaultCanalAdapterConfigure canalAdapterConfigure) {
+    public CanalSyncRedisUserRunner(SimpleCanalAdapterConfigure canalAdapterConfigure) {
         super(canalAdapterConfigure);
     }
 
@@ -41,6 +41,7 @@ public class CanalSyncRedisUserRunner extends AbstractCanalRunner {
         for (Entry entry : entrys) {
             if (entry.getEntryType() == EntryType.TRANSACTIONBEGIN
                 || entry.getEntryType() == EntryType.TRANSACTIONEND) {
+                log.info("事务 {}", entry.getEntryType());
                 continue;
             }
 

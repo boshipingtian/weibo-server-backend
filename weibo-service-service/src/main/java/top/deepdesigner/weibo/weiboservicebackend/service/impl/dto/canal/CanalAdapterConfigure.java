@@ -4,7 +4,7 @@
 
 package top.deepdesigner.weibo.weiboservicebackend.service.impl.dto.canal;
 
-import lombok.Data;
+import com.alibaba.otter.canal.client.CanalConnector;
 
 /**
  *  <br>
@@ -13,16 +13,20 @@ import lombok.Data;
  * @Date: 2023/9/5 14:25
  * @Version: 1.0.0
  */
-@Data
 public abstract class CanalAdapterConfigure {
 
-    protected String zkServers;
+    /**
+     * zkServers 192.168.192.215:2181,...
+     * host 192.168.192.215
+     * @return
+     */
+    public abstract String getServers();
 
-    protected String destination;
+    public abstract String getDestination();
 
-    protected String username = "canal";
+    public abstract String getUsername();
+    public abstract String getPassword();
+    public abstract String getSubscribe();
 
-    protected String password = "canal";
-
-    protected String subscribe = ".*\\..*";
+    public abstract CanalConnector getConnector();
 }
