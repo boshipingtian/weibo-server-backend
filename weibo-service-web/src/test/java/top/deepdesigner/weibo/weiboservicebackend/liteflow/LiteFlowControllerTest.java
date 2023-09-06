@@ -1,11 +1,10 @@
 package top.deepdesigner.weibo.weiboservicebackend.liteflow;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import javax.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import top.deepdesigner.weibo.weiboservicebackend.WeiboServiceBackendApplication;
+import top.deepdesigner.weibo.weiboservicebackend.controller.liteflow.LiteFlowController;
 
 @SpringBootTest(classes = WeiboServiceBackendApplication.class)
 class LiteFlowControllerTest {

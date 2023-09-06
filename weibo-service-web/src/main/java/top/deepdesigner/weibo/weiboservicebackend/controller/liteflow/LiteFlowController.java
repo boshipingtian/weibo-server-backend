@@ -1,4 +1,4 @@
-package top.deepdesigner.weibo.weiboservicebackend.liteflow;
+package top.deepdesigner.weibo.weiboservicebackend.controller.liteflow;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

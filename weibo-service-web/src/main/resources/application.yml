@@ -4,4 +4,6 @@ spring:
       - config-web
       - config-websocket
       - config-swagger
+      - config-datasource
+      - config-cache
     active: dev

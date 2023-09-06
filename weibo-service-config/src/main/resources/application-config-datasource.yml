@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.192.215:3306/syncdemo?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 123456
+
+mybatis-plus:
+  configuration:
+    # 把下划线转换为驼峰
+    map-underscore-to-camel-case: true
+    # 自动映射 NONE 表示取消自动映射；PARTIAL 只会自动映射没有定义嵌套结果集映射的结果集（默认）。 FULL 会自动映射任意复杂的结果集（无论是否嵌套）
+    auto-mapping-behavior: full
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  global-config:
+    # 逻辑删除配置
+    db-config:
+      # 删除前
+      logic-not-delete-value: 1
+      # 删除后
+      logic-delete-value: 0

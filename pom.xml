@@ -12,6 +12,7 @@
         <module>weibo-service-service</module>
         <module>weibo-service-core</module>
         <module>weibo-service-config</module>
+        <module>weibo-service-common</module>
     </modules>
     <name>weibo-service-backend</name>
     <description>weibo-service-backend</description>
@@ -31,6 +32,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
