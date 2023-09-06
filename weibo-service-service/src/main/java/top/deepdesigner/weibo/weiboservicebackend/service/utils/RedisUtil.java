@@ -50,7 +50,6 @@ public class RedisUtil {
     }
 
     public static long randomExpire(int min, int max) {
-        RANDOM.nextLong();
-        return (long) (min + RANDOM.nextDouble() * (max - min));
+        return min + RANDOM.nextLong() * (max - min);
     }
 }

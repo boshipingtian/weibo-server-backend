@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.deepdesigner.weibo.weiboservicebackend.exception.CanalParserException;
-import top.deepdesigner.weibo.weiboservicebackend.service.impl.dto.canal.DefaultCanalAdapterConfigure;
+import top.deepdesigner.weibo.weiboservicebackend.service.impl.dto.canal.SimpleCanalAdapterConfigure;
 import top.deepdesigner.weibo.weiboservicebackend.service.utils.RedisUtil;
 
 /**
@@ -32,7 +32,7 @@ import top.deepdesigner.weibo.weiboservicebackend.service.utils.RedisUtil;
 public class CanalSyncRedisUserRunner extends AbstractCanalRunner {
 
     @Autowired
-    public CanalSyncRedisUserRunner(DefaultCanalAdapterConfigure canalAdapterConfigure) {
+    public CanalSyncRedisUserRunner(SimpleCanalAdapterConfigure canalAdapterConfigure) {
         super(canalAdapterConfigure);
     }
 
@@ -41,10 +41,11 @@ public class CanalSyncRedisUserRunner extends AbstractCanalRunner {
         for (Entry entry : entrys) {
             if (entry.getEntryType() == EntryType.TRANSACTIONBEGIN
                 || entry.getEntryType() == EntryType.TRANSACTIONEND) {
+                log.info("事务 {}", entry.getEntryType());
                 continue;
             }
 
-            RowChange rowChage = null;
+            RowChange rowChage;
             try {
                 rowChage = RowChange.parseFrom(entry.getStoreValue());
             } catch (Exception e) {
@@ -64,14 +65,14 @@ public class CanalSyncRedisUserRunner extends AbstractCanalRunner {
                     RedisUtil.delete(jsonObject.getString("id"));
                 } else if (eventType == EventType.INSERT) {
                     JSONObject jsonObject = printColumn(rowData.getAfterColumnsList());
-                    RedisUtil.put(jsonObject.getString("id"), jsonObject.toJSONString(), RedisUtil.randomExpire(2, 1),
+                    RedisUtil.put(jsonObject.getString("id"), jsonObject.toJSONString(), RedisUtil.randomExpire(1, 2),
                         TimeUnit.HOURS);
                 } else if (eventType == EventType.UPDATE) {
                     log.info("------- update before");
                     printColumn(rowData.getBeforeColumnsList());
                     log.info("------- update after");
                     JSONObject jsonObject = printColumn(rowData.getAfterColumnsList());
-                    RedisUtil.put(jsonObject.getString("id"), jsonObject.toJSONString(), RedisUtil.randomExpire(2, 1),
+                    RedisUtil.put(jsonObject.getString("id"), jsonObject.toJSONString(), RedisUtil.randomExpire(1, 2),
                         TimeUnit.HOURS);
                 } else {
                     log.info("------- other before || do nothing");

@@ -6,6 +6,7 @@ package top.deepdesigner.weibo.weiboservicebackend.service.impl.dto.canal;
 
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
+import java.net.InetSocketAddress;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0.0
  */
 @Component
-public class DefaultCanalAdapterConfigure extends CanalAdapterConfigure {
+public class SimpleCanalAdapterConfigure extends CanalAdapterConfigure {
 
     @Override
     public String getSubscribe() {
@@ -25,7 +26,7 @@ public class DefaultCanalAdapterConfigure extends CanalAdapterConfigure {
 
     @Override
     public String getServers() {
-        return "192.168.192.215:2181";
+        return "192.168.192.215";
     }
 
     @Override
@@ -45,7 +46,7 @@ public class DefaultCanalAdapterConfigure extends CanalAdapterConfigure {
 
     @Override
     public CanalConnector getConnector() {
-        return CanalConnectors.newClusterConnector(getServers(), getDestination(), getUsername(),
+        return CanalConnectors.newSingleConnector(new InetSocketAddress(getServers(), 11111), getDestination(), getUsername(),
             getPassword());
     }
 }
