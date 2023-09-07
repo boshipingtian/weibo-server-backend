@@ -11,7 +11,7 @@ import java.util.List;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import top.deepdesigner.weibo.weiboservicebackend.service.api.runner.CanalRunner;
-import top.deepdesigner.weibo.weiboservicebackend.service.impl.dto.canal.CanalAdapterConfigure;
+import top.deepdesigner.weibo.weiboservicebackend.service.dto.canal.CanalAdapterConfigure;
 
 /**
  * <br>

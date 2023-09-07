@@ -2,7 +2,7 @@
  * Copyright(C),2015‐2023,北京清能互联科技有限公司
  */
 
-package top.deepdesigner.weibo.weiboservicebackend.service.impl.dto.canal;
+package top.deepdesigner.weibo.weiboservicebackend.service.dto.canal;
 
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;

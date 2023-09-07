@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.deepdesigner.weibo.weiboservicebackend.exception.CanalParserException;
-import top.deepdesigner.weibo.weiboservicebackend.service.impl.dto.canal.SimpleCanalAdapterConfigure;
+import top.deepdesigner.weibo.weiboservicebackend.service.dto.canal.SimpleCanalAdapterConfigure;
 import top.deepdesigner.weibo.weiboservicebackend.service.utils.RedisUtil;
 
 /**
@@ -63,10 +63,12 @@ public class CanalSyncRedisUserRunner extends AbstractCanalRunner {
                 if (eventType == EventType.DELETE) {
                     JSONObject jsonObject = printColumn(rowData.getBeforeColumnsList());
                     RedisUtil.delete(jsonObject.getString("id"));
+                    log.info("delete successfully");
                 } else if (eventType == EventType.INSERT) {
                     JSONObject jsonObject = printColumn(rowData.getAfterColumnsList());
                     RedisUtil.put(jsonObject.getString("id"), jsonObject.toJSONString(), RedisUtil.randomExpire(1, 2),
                         TimeUnit.HOURS);
+                    log.info("insert successfully");
                 } else if (eventType == EventType.UPDATE) {
                     log.info("------- update before");
                     printColumn(rowData.getBeforeColumnsList());
@@ -74,6 +76,7 @@ public class CanalSyncRedisUserRunner extends AbstractCanalRunner {
                     JSONObject jsonObject = printColumn(rowData.getAfterColumnsList());
                     RedisUtil.put(jsonObject.getString("id"), jsonObject.toJSONString(), RedisUtil.randomExpire(1, 2),
                         TimeUnit.HOURS);
+                    log.info("update successfully");
                 } else {
                     log.info("------- other before || do nothing");
                     printColumn(rowData.getBeforeColumnsList());

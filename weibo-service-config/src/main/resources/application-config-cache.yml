@@ -10,5 +10,5 @@ spring:
         min-idle: 5
         max-idle: 10
         max-active: 8
-        max-wait: 1ms
-      shutdown-timeout: 100ms
+        max-wait: 1000ms
+      shutdown-timeout: 10000ms
