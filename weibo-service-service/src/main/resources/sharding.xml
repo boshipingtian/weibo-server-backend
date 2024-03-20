@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:sharding="http://shardingsphere.apache.org/schema/shardingsphere/sharding"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://shardingsphere.apache.org/schema/shardingsphere/sharding http://shardingsphere.apache.org/schema/shardingsphere/sharding/sharding.xsd">
+
+  <!--分片算法-->
+
+  <bean id="monthAlgorithm" class=""/>
+    
+  <!--月表分片策略-->
+  <sharding:standard-strategy id="monthStrategy" sharding-column="DATE_TIME"
+    precise-algorithm-ref="monthAlgorithm" range-algorithm-ref="monthAlgorithm"/>
+
+
+
+  <sharding:data-source id="dataSourceSharding">
+    <sharding:props>
+      <prop key="sql.show">false</prop>
+    </sharding:props>
+    <sharding:sharding-rule data-source-names="dsCommon" default-data-source-name="dsCommon">
+      <sharding:table-rules>
+        <sharding:table-rule logic-table="ZONE_MEASURE_CLCT" actual-data-nodes="dsCommon.ZONE_MEASURE_CLCT"
+          table-strategy-ref="monthStrategy"/>
+        <sharding:table-rule logic-table="LF_ZONE_HIS_CLCT" actual-data-nodes="dsCommon.LF_ZONE_HIS_CLCT"
+          table-strategy-ref="monthStrategy"/>
+        <sharding:table-rule logic-table="LF_ZONE_FC" actual-data-nodes="dsCommon.LF_ZONE_FC"
+          table-strategy-ref="monthStrategy"/>
+        <sharding:table-rule logic-table="LF_ZONE_SHORT_FC" actual-data-nodes="dsCommon.LF_ZONE_SHORT_FC"
+          table-strategy-ref="monthStrategy"/>
+        <sharding:table-rule logic-table="LF_ZONE_LONG_FC" actual-data-nodes="dsCommon.LF_ZONE_LONG_FC"
+          table-strategy-ref="monthStrategy"/>
+        <sharding:table-rule logic-table="PF_SUB_ZONE_HIS" actual-data-nodes="dsCommon.PF_SUB_ZONE_HIS"
+          table-strategy-ref="monthStrategy"/>
+        <sharding:table-rule logic-table="PF_SUB_ZONE_FC" actual-data-nodes="dsCommon.PF_SUB_ZONE_FC"
+          table-strategy-ref="monthStrategy"/>
+        <sharding:table-rule logic-table="PF_SUB_ZONE_SHORT_FC" actual-data-nodes="dsCommon.PF_SUB_ZONE_SHORT_FC"
+          table-strategy-ref="monthStrategy"/>
+        <sharding:table-rule logic-table="PF_SUB_ZONE_LONG_FC" actual-data-nodes="dsCommon.PF_SUB_ZONE_LONG_FC"
+          table-strategy-ref="monthStrategy"/>
+      </sharding:table-rules>
+    </sharding:sharding-rule>
+  </sharding:data-source>
+</beans>
