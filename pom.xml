@@ -8,6 +8,7 @@
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
+        <module>weibo-service-common</module>
         <module>weibo-service-web</module>
         <module>weibo-service-service</module>
         <module>weibo-service-core</module>

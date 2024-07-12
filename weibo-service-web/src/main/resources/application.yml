@@ -2,6 +2,5 @@ spring:
   profiles:
     include:
       - config-web
-      - config-websocket
       - config-swagger
-    active: dev
+      - config-cache
